@@ -34,7 +34,7 @@ export function NavigationLink() {
             <Route path="/subtopic">
                 <Route index element={<><SideNavigationBar /><SubTopicPage /></>} />
                 <Route path="add" element={<><SideNavigationBar /><AddSubTopic /></>} />
-                <Route path="update" element={<><SideNavigationBar /><UpdateSubTopic /></>} />
+                <Route path="update/:sub_topic_slug" element={<><SideNavigationBar /><UpdateSubTopic /></>} />
             </Route>
             <Route path="/adminapproval">
                 <Route index element={<><SideNavigationBar /><AdminApproval /></>} />
