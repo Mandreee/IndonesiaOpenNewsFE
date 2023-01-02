@@ -29,7 +29,11 @@ export function TopicPage() {
                                         <tr className="tr" key={key}>
                                             <td className="td">{data.id}</td>
                                             <td className="td">{data.topic_title}</td>
-                                            <td className="td"><NavLink to={`/topic/update/${data.topic_slug}`} className="action-button">Update</NavLink>/<button href="#" className="action-button">Delete</button></td>
+                                            <td className="td"><buttonk to={`/topic/update/${data.topic_slug}`} className="action-button">Update</buttonk>/<button onClick={() => {
+                                                axios.delete('http://127.0.0.1:8000/api/topics/'+data.id).then(res => {
+                                                })    
+                                                }} className="action-button">Delete</button>
+                                            </td>
                                         </tr>
                                     )
                                 })
@@ -42,15 +46,25 @@ export function TopicPage() {
     )
 }
 export function AddTopic() {
+    const [topic, setTopic] = useState("");
+    const AddTopic = async (e) => {
+        e.preventDefault();
+        let formData = new FormData();
+        formData.append("topic_title", topic);
+        await axios.post('http://127.0.0.1:8000/api/topics', formData).then(res => {
+            
+        })
+
+    }
     return (
         <>
             <div className="main-side">
                 <div style={{ border: "2px solid black", marginTop: "10px", marginBottom: "10px", width: "100%" }}><h5 className="center-auto">Add Topic Form</h5></div>
-                <form className="form-group-custom flex-custom flex-justify-content-around-custom flex-column-custom margin-top-5">
+                <form onSubmit={AddTopic} className="form-group-custom flex-custom flex-justify-content-around-custom flex-column-custom margin-top-5">
                     <div className="flex-custom flex-justify-content-start-custom flex-row-custom align-items-baseline-custom center-auto width-70">
                         <label htmlFor="news-topic">Topic</label>
                         <div className="width-100 flex-custom flex-justify-start-custom flex-column-custom align-items-start-custom margin-left-2 width-90">
-                            <input type={"text"} className="form-control-custom width-80" />
+                            <input type={"text"} value={topic} onChange={(e) =>setTopic(e.target.value)} className="form-control-custom width-80" />
                             <button className="btn-custom btn-custom-sky ">Add Topic</button>
                         </div>
                     </div>

@@ -55,7 +55,7 @@ export class SideNavigationBar extends React.Component {
                                     <NavLink to="/topic" className="side-nav-dropdown-menu-list-item-link">Topic</NavLink>
                                 </li>
                                 <li className="side-nav-dropdown-menu-list-item">
-                                    <NavLink to="subtopic" className="side-nav-dropdown-menu-list-item-link">Sub Topic</NavLink>
+                                    <NavLink to="/subtopic" className="side-nav-dropdown-menu-list-item-link">Sub Topic</NavLink>
                                 </li>
                             </ul>
                         </li>
@@ -65,7 +65,7 @@ export class SideNavigationBar extends React.Component {
                             </a>
                         </li>
                         <li className="side-nav-overlay-list-item"><a className="side-nav-overlay-list-item-link" href="#">Admin Profile</a></li>
-                        <li className="side-nav-overlay-list-item"><a className="side-nav-overlay-list-item-link" href="#">Admin Register</a></li>
+                        <li className="side-nav-overlay-list-item"><NavLink to={'/signup'} className="side-nav-overlay-list-item-link">Admin Register</NavLink></li>
                     </ul>
                     <button className="btn-custom btn-gray center-auto" style={{ position: "relative", top: "20px" }}>Signout</button>
                 </nav >

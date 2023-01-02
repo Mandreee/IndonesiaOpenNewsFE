@@ -9,6 +9,7 @@ import { SignIn } from "../pages/SignIn";
 import { AddSubTopic, SubTopicPage, UpdateSubTopic } from "../pages/SubTopic";
 import { TopicPage, AddTopic, UpdateTopic } from "../pages/TopicPage";
 import { UpdateNewsPage } from "../pages/UpdateNewsPage";
+import { SignUp } from "../pages/signup.";
 
 export function NavigationLink() {
     const navigate = useNavigate();
@@ -40,7 +41,7 @@ export function NavigationLink() {
                 <Route index element={<><SideNavigationBar /><AdminApproval /></>} />
             </Route>
             <Route path="/signin" element={<SignIn />} />
-            <Route path="/signup" />
+            <Route path="/signup" element={<SignUp />} />
         </Routes>
 
     )
