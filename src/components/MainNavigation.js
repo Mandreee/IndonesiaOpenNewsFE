@@ -4,10 +4,10 @@ import { Navigate } from "react-router-dom";
 import { SideNavigationBar } from "../layouts/SideNavBar";
 import { AdminApproval } from "../pages/AdminApprovalPage";
 import { Home } from "../pages/Home";
-import { NewsPage } from "../pages/NewsPage";
+import { NewsPage, AddNews, UpdateNews } from "../pages/News";
 import { SignIn } from "../pages/SignIn";
 import { AddSubTopic, SubTopicPage, UpdateSubTopic } from "../pages/SubTopic";
-import { TopicPage, AddTopic, UpdateTopic } from "../pages/TopicPage";
+import { TopicPage, AddTopic, UpdateTopic } from "../pages/Topic";
 import { UpdateNewsPage } from "../pages/UpdateNewsPage";
 import { SignUp } from "../pages/signup.";
 
@@ -25,7 +25,8 @@ export function NavigationLink() {
             <Route path="/" element={<><SideNavigationBar /><Home /></>} />
             <Route path="/news">
                 <Route index element={<><SideNavigationBar /><NewsPage /></>} />
-                <Route path="update" element={<><SideNavigationBar /><UpdateNewsPage /></>} />
+                <Route path="add" element={<><SideNavigationBar /><AddNews /></>} />
+                <Route path="update/:topic_slug" element={<><SideNavigationBar /><UpdateNews /></>} />
             </Route>
             <Route path="/topic">
                 <Route index element={<><SideNavigationBar /><TopicPage /></>} />

@@ -67,6 +67,21 @@ export function AddTopic() {
                             <input type={"text"} value={topic} onChange={(e) => setTopic(e.target.value)} className="form-control-custom width-80" />
                             <button className="btn-custom btn-custom-sky ">Add Topic</button>
                         </div>
+
+                        <div className="flex-custom flex-justify-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
+                            <label htmlFor="topic">Topic</label>
+                            <select value={topicId} onChange={(e) => { setTopicId(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-4" id="topic">
+                                <option>Choose Topic</option>
+                                {
+                                    topics.map((data, index) => {
+                                        return <option value={data.id} key={index} > {data.topic_title}</option>
+                                    })
+                                }
+
+
+                            </select>
+
+                        </div>
                     </div>
                 </form>
             </div>
@@ -125,7 +140,7 @@ export function UpdateTopic() {
         <>
             <div className="main-side">
                 <div style={{ border: "2px solid black", marginTop: "30px", marginBottom: "10px", width: "100%" }}><h5 className="center-auto">Update Topic Form</h5></div>
-                <form className="form-group-custom flex-custom flex-justify-content-around-custom flex-column-custom width-100 margin-top-1" onSubmit={updateHandler}>
+                <form className="form-group-custom flex-custom flex-justify-content-around-custom flex-column-custom width-100 margin-top-1" onmit={updateHandler}>
                     {
                         topic.map((data, index) => {
                             let element_updatedat;
