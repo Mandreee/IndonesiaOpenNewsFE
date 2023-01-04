@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import axios from "axios";
+import { useParams } from "react-router-dom";
 export function NewsPage() {
 
     const [posts, setPosts] = useState([]);
@@ -79,7 +80,7 @@ export function NewsPage() {
                     </div>
                 </div>
                 <div className="row-custom h-75hv-w-90">
-                    <button className="btn-custom btn-custom-red margin-left-3 margin-bottom-1" onClick={() => window.location.replace("/news/add")}>Add News</button>
+                    {/* <button className="btn-custom btn-custom-red margin-left-3 margin-bottom-1" onClick={() => window.location.replace("/news/add")}>Add News</button> */}
                     <table className="table margin-left-3 width-80">
                         <thead className="thead">
                             <tr className="tr">
@@ -108,7 +109,7 @@ export function NewsPage() {
                                                 {data.news_status}
                                             </td>
                                             <td  >
-                                                <a href={`/news/update/${data.news_slug}`} className="action-button">Update</a>/
+                                                <a href={`/news/update/${data.id}`} className="action-button">Update</a>/
                                                 <button onClick={() => DeletePost(data.id)} className="action-button">Delete</button>
 
                                             </td>
@@ -195,7 +196,7 @@ export function AddNews() {
                             <option>Choose Topic</option>
                             {
                                 subTopics.map((data, index) => {
-                                    return <option value={data.id} key={index}>{data.topic_title}</option>
+                                    return <option value={data.id} key={index}>{data.sub_topic_title}</option>
                                 })
                             }
                         </select>
@@ -212,22 +213,63 @@ export function AddNews() {
 export function UpdateNews() {
     const [topics, setTopics] = useState([])
     const [subTopics, setSubTopics] = useState([])
+    const [news, setNews] = useState([])
+    const { news_id } = useParams();
 
-    const [topicId, setTopicId] = useState("")
     const [subTopicId, setSubTopicId] = useState("")
     const [newsTitle, setNewsTitle] = useState("");
     const [newsStatus, setNewsStatus] = useState("");
     const [newsContent, setNewsContent] = useState("");
+    const [newsName, setNewsName] = useState("");
+    const [newsPictureLink, setNewsPictureLink] = useState("");
+    const [newsFile, setNewsFile] = useState("");
+
     const UpdatePost = async (e) => {
         e.preventDefault();
         let formData = new FormData();
-        formData.append("post_title", newsTitle);
-        await axios.post('http://127.0.0.1:8000/api/news', formData).then(res => {
 
-        })
+        formData.append("_method", "PUT")
+        formData.append("news_title", newsTitle);
+        formData.append("news_content", newsContent);
+        formData.append("news_status", newsStatus);
+        formData.append("name", newsName);
+        formData.append("image_file", newsFile);
+        formData.append("sub_topic_id", subTopicId);
 
+        console.log(formData.get("news_title", newsTitle))
+        console.log(formData.get("news_content", newsContent))
+        console.log(formData.get("news_status", newsStatus))
+        console.log(formData.get("name", newsName))
+        console.log(formData.get("image_file", newsFile))
+        console.log(formData.get("sub_topic_id", subTopicId))
+
+        // alert('ok')
+
+
+        await axios.put('http://127.0.0.1:8000/api/news/6', formData,
+            {
+                headers: { "Content-type": "multipart/form-data" },
+            }).then(res => {
+                console.log(res)
+                // alert('tes')
+                // window.location.replace("/news")
+            }).catch(error => {
+                console.log(error)
+            });
     }
 
+    const getNews = async () => {
+        await axios.get("http://127.0.0.1:8000/api/news/update/" + news_id).then(res => {
+            setNews(res.data[0])
+
+            setNewsTitle(res.data[0].news_title != null ? res.data[0].news_title : "")
+            setNewsContent(res.data[0].news_content != null ? res.data[0].news_content : "")
+            setNewsStatus(res.data[0].news_status != null ? res.data[0].news_status : "")
+            setNewsName(res.data[0].name != null ? res.data[0].name : "")
+            setNewsPictureLink(res.data[0].news_picture_link != null ? res.data[0].news_picture_link : "")
+            setSubTopicId(res.data[0].sub_topic_id != null ? res.data[0].sub_topic_id : "")
+        })
+    }
     const getSubTopics = async () => {
         await axios.get("http://127.0.0.1:8000/api/sub_topics").then(res => {
             setSubTopics(res.data.sub_topics)
@@ -241,7 +283,7 @@ export function UpdateNews() {
     useEffect(() => {
         getSubTopics();
         getTopics();
-
+        getNews();
     }, [])
 
     return (
@@ -249,6 +291,7 @@ export function UpdateNews() {
             <div className="main-side">
                 <div style={{ border: "2px solid black", marginTop: "10px", marginBottom: "10px", width: "100%" }}><h5 className="center-auto">Update Post Form</h5></div>
                 <form onSubmit={UpdatePost} className="form-group-custom flex-custom flex-justify-content-around-custom flex-column-custom margin-top-5">
+
                     <div className="flex-custom flex-justify-content-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
                         <label htmlFor="sub-topic">News</label>
                         <input value={newsTitle} onChange={(e) => { setNewsTitle(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-2" id="sub-topic" />
@@ -261,7 +304,18 @@ export function UpdateNews() {
                         <label htmlFor="sub-topic">Status</label>
                         <input value={newsStatus} onChange={(e) => { setNewsStatus(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-2" id="sub-topic" />
                     </div>
-                    <div className="flex-custom flex-justify-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
+                    <div className="flex-custom flex-justify-content-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
+                        <label htmlFor="sub-topic">Name</label>
+                        <input value={newsName} onChange={(e) => { setNewsName(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-2" id="sub-topic" />
+                    </div>
+                    <div className="flex-custom flex-justify-content-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
+
+                        <label htmlFor="sub-topic">Images</label>
+
+                        <img style={{ maxWidth: "40%", height: "250x", }} className="margin-bottom-2" src={newsPictureLink} />
+                        <input onChange={(e) => { setNewsFile(e.target.files[0]) }} type={"file"} accept="image/*" className="form-control-custom width-75 margin-left-2" id="sub-topic" />
+                    </div>
+                    {/* <div className="flex-custom flex-justify-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
                         <label htmlFor="topic">Topic</label>
                         <select value={topicId} onChange={(e) => { setTopicId(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-4" id="topic">
                             <option>Choose Topic</option>
@@ -272,14 +326,14 @@ export function UpdateNews() {
                             }
                         </select>
 
-                    </div>
+                    </div> */}
                     <div className="flex-custom flex-justify-start-custom flex-row-custom align-items-baseline-custom width-80 margin-left-2">
                         <label htmlFor="topic">Sub Topic</label>
                         <select value={subTopicId} onChange={(e) => { setSubTopicId(e.target.value) }} type={"text"} className="form-control-custom width-75 margin-left-4" id="topic">
                             <option>Choose Topic</option>
                             {
                                 subTopics.map((data, index) => {
-                                    return <option value={data.id} key={index}>{data.topic_title}</option>
+                                    return <option value={data.id} key={index}>{data.sub_topic_title}</option>
                                 })
                             }
                         </select>

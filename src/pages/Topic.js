@@ -118,7 +118,7 @@ export function UpdateTopic() {
         event.preventDefault();
 
         let formdata = new FormData()
-        // formdata.append("_method", "PUT")
+        formdata.append("_method", "PUT")
         formdata.append("topic_title", topicTitle)
 
         axios.post("http://127.0.0.1:8000/api/topics/" + topic.id, formdata

@@ -44,7 +44,9 @@ export class SideNavigationBar extends React.Component {
                 </header>
                 <nav className="side-nav-overlay">
                     <ul className="side-nav-overlay-list">
-                        <li className="side-nav-overlay-list-item"><a className="side-nav-overlay-list-item-link" href="#">Home</a></li>
+                        <li className="side-nav-overlay-list-item">
+                            <NavLink to="/" className="side-nav-overlay-list-item-link" href="#">Home</NavLink>
+                        </li>
                         <li className="side-nav-overlay-list-item">
                             <span className="side-nav-overlay-list-item-link side-nav-dropdown-toggle" href="#" data-toggle="dropdown"> News <div className="arrow-right"></div> </span>
                             <ul className="side-nav-dropdown-menu-list">
@@ -60,11 +62,14 @@ export class SideNavigationBar extends React.Component {
                             </ul>
                         </li>
                         <li className="side-nav-overlay-list-item">
-                            <a className="side-nav-overlay-list-item-link" href="#" data-toggle="dropdown">
+                            <NavLink to="/adminapproval" className="side-nav-overlay-list-item-link" href="#" data-toggle="dropdown">
                                 Admin Approval
-                            </a>
+                            </NavLink>
                         </li>
-                        <li className="side-nav-overlay-list-item"><a className="side-nav-overlay-list-item-link" href="#">Admin Profile</a></li>
+                        <li className="side-nav-overlay-list-item">
+                            <NavLink to="/admin" className="side-nav-overlay-list-item-link" href="#">Admin Profile
+                            </NavLink>
+                        </li>
                         <li className="side-nav-overlay-list-item"><NavLink to={'/signup'} className="side-nav-overlay-list-item-link">Admin Register</NavLink></li>
                     </ul>
                     <button className="btn-custom btn-gray center-auto" style={{ position: "relative", top: "20px" }}>Signout</button>
