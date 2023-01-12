@@ -13,6 +13,45 @@ export function Home() {
     const [unchangedNews, setUnchangedNews] = useState([]);
     const [filteredNewsByDate, setFilteredNewsByDate] = useState([]);
     const [filterDate, setFilterDate] = useState(new Date());
+
+
+    const [adminApprovals, setAdminApprovals] = useState([]);
+    const getAdminApprovals = async () => {
+        await axios.get("http://127.0.0.1:8000/api/adminapproval/news").then(res => {
+            setAdminApprovals(res.data.admin_news_approval)
+        })
+    };
+    const RejectAdminApproval = async (id) => {
+        // let formdata = new FormData()
+        // formdata.append("adminApproval_title", adminApprovalTitle)
+        // formdata.append("adminApproval_id", adminApprovalId)
+        await axios.post("http://127.0.0.1:8000/api/adminapproval/news/reject/" + id).then(res => { })
+        alert('rejected')
+        getAdminApprovals();
+    }
+    const ApproveAdminApproval = async (id) => {
+        // let formdata = new FormData()
+        // formdata.append("adminApproval_title", adminApprovalTitle)
+        // formdata.append("adminApproval_id", adminApprovalId)
+        await axios.post("http://127.0.0.1:8000/api/adminapproval/news/approve/" + id).then(res => { })
+        alert('approved')
+        getAdminApprovals();
+    }
+    const getAuthors = async (id) => {
+        const authors = await axios.get("http://127.0.0.1:8000/api/authors");
+        setAuthors(authors.data);
+    }
+
+    const DeleteAuthor = async (id) => {
+        // let formdata = new FormData()
+        // formdata.append("post_title", postTitle)
+        // formdata.append("post_id", postId)
+        await axios.delete("http://127.0.0.1:8000/api/deleteUser/" + id).then(res => { })
+        alert('deleted');
+        getAuthors();
+    }
+
+
     useEffect(() => {
         async function getTopics() {
             const topics = await axios.get("http://127.0.0.1:8000/api/topics");
@@ -23,10 +62,7 @@ export function Home() {
                 setSubTopics(response.data.sub_topics);
             });
         }
-        async function getAuthors() {
-            const authors = await axios.get("http://127.0.0.1:8000/api/authors");
-            setAuthors(authors.data);
-        }
+
         async function getNews() {
             await axios.get("http://127.0.0.1:8000/api/news").then(response => {
                 setNews(response.data);
@@ -40,6 +76,7 @@ export function Home() {
                 getSubTopics();
                 getAuthors();
                 getNews();
+                getAdminApprovals();
             }, 1);
         }
     }, []);
@@ -207,6 +244,8 @@ export function Home() {
                         }
                     </tbody>
                 </table>
+
+
                 <div style={{ border: "2px solid black", marginTop: "10px", marginBottom: "10px", width: "100%" }}>
                     <h5 className="center-auto">Admin Approval</h5>
                 </div>
@@ -214,18 +253,86 @@ export function Home() {
                     <thead className="thead">
                         <tr className="tr">
                             <th className="th">Admin Approval ID</th>
+                            <th className="th">Author Title</th>
                             <th className="th">Author Name</th>
                             <th className="th">Author Description</th>
                             <th className="th">Action</th>
                         </tr>
                     </thead>
                     <tbody>
+                        {
+                            adminApprovals.map((data, key) => {
+                                return (
+                                    <tr key={key}>
+                                        <td className="td">
+                                            {data.id}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.news_title}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.name}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.news_content}
+                                        </td>
+                                        <td  >
+                                            <button onClick={() => ApproveAdminApproval(data.id)} className="action-button">Approve</button>/
+                                            <button onClick={() => RejectAdminApproval(data.id)} className="action-button">Rejected</button>
+
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
+                    </tbody>
+                </table>
+
+
+
+
+
+                <div style={{ border: "2px solid black", marginTop: "10px", marginBottom: "10px", width: "100%" }}>
+                    <h5 className="center-auto">Authors</h5>
+                </div>
+                <table className="table margin-left-3 width-80 margin-top-1">
+                    <thead className="thead">
                         <tr className="tr">
-                            <td className="td">1</td>
-                            <td className="td">Test</td>
-                            <td className="td"><a href="#" className="action-button">Update</a>/<a href="#" className="action-button">Delete</a></td>
-                            <td className="td"><a href="#" className="action-button">Update</a>/<a href="#" className="action-button">Delete</a></td>
+                            <th className="th">Author ID</th>
+                            <th className="th">Author Name</th>
+                            <th className="th">Author Email</th>
+                            <th className="th">Author Description</th>
+                            <th className="th">Action</th>
                         </tr>
+                    </thead>
+                    <tbody>
+
+                        {
+                            authors.map((data, key) => {
+                                return (
+                                    <tr key={key}>
+                                        <td className="td">
+                                            {data.id}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.name}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.email}
+                                        </td>
+                                        <td className="td"  >
+                                            {data.author_description}
+                                        </td>
+
+                                        <td  >
+                                            {/* <button onClick={() => ApproveAdminApproval(data.id)} className="action-button">Approve</button>/ */}
+                                            <button onClick={() => DeleteAuthor(data.id)} className="action-button">Delete</button>
+
+                                        </td>
+                                    </tr>
+                                )
+                            })
+                        }
                     </tbody>
                 </table>
             </div>

@@ -67,6 +67,11 @@ export class SideNavigationBar extends React.Component {
                             </NavLink>
                         </li>
                         {/* <li className="side-nav-overlay-list-item">
+                            <NavLink to="/authors" className="side-nav-overlay-list-item-link" href="#" data-toggle="dropdown">
+                                Authors
+                            </NavLink>
+                        </li> */}
+                        {/* <li className="side-nav-overlay-list-item">
                             <NavLink to="/admin" className="side-nav-overlay-list-item-link" href="#">Admin Profile
                             </NavLink>
                         </li> */}

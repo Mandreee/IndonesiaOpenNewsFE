@@ -42,7 +42,7 @@ export function AdminApproval() {
                         <th className="th">Admin Approval ID</th>
                         <th className="th">Author Title</th>
                         <th className="th">Author Name</th>
-                        <th className="th">Author Description</th>
+                        <th className="th">News Content</th>
                         <th className="th">Action</th>
                     </tr>
                 </thead>
