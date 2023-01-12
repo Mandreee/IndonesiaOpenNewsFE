@@ -66,13 +66,13 @@ export class SideNavigationBar extends React.Component {
                                 Admin Approval
                             </NavLink>
                         </li>
-                        {/* <li className="side-nav-overlay-list-item">
-                            <NavLink to="/authors" className="side-nav-overlay-list-item-link" href="#" data-toggle="dropdown">
+                        <li className="side-nav-overlay-list-item">
+                            <NavLink to="/author" className="side-nav-overlay-list-item-link" href="#" data-toggle="dropdown">
                                 Authors
                             </NavLink>
-                        </li> */}
+                        </li>
                         {/* <li className="side-nav-overlay-list-item">
-                            <NavLink to="/admin" className="side-nav-overlay-list-item-link" href="#">Admin Profile
+                            <NavLink to="" className="side-nav-overlay-list-item-link" href="#">Admin Profile
                             </NavLink>
                         </li> */}
                         <li className="side-nav-overlay-list-item"><NavLink to={'/signup'} className="side-nav-overlay-list-item-link">Admin Register</NavLink></li>

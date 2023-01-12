@@ -11,7 +11,7 @@ import { TopicPage, AddTopic, UpdateTopic } from "../pages/Topic";
 // import { UpdateNewsPage } from "../pages/UpdateNewsPage";
 import { SignUp } from "../pages/signup.";
 import { AddAdmin, AdminPage, UpdateAdmin } from "../pages/Profile";
-import { AuthorPage } from "../pages/Author";
+import { AuthorPage, UpdateAuthor } from "../pages/Author";
 
 export function NavigationLink() {
     const navigate = useNavigate();
@@ -48,8 +48,9 @@ export function NavigationLink() {
             <Route path="/adminapproval">
                 <Route index element={<><SideNavigationBar /><AdminApproval /></>} />
             </Route>
-            <Route path="/authors">
+            <Route path="/author">
                 <Route index element={<><SideNavigationBar /><AuthorPage /></>} />
+                <Route path="update/:author_slug" element={<><SideNavigationBar /><UpdateAuthor /></>} />
             </Route>
 
             <Route path="/signin" element={<SignIn />} />
